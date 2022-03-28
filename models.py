@@ -1,7 +1,6 @@
 from mongoengine import Document, StringField, IntField, ListField, ReferenceField, DateTimeField, BooleanField, \
     FloatField, EmbeddedDocument
 
-
 class Shop(Document):
     meta = {'collection': 'Shop'}
     name = StringField(required=True, max_length=50)

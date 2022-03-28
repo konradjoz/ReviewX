@@ -1,66 +1,71 @@
 <!-- templates/base.html -->
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="utf-8">
-      <title>{% block title %}Auth Tutorial{% endblock %}</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-      <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='css/index.css') }}">
-       {% block stylesheets %}{% endblock %}
-   </head>
-   <body>
-      <main>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="">ReviewX</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-mdb-toggle="collapse"
-      data-mdb-target="#navbarTogglerDemo02"
-      aria-controls="navbarTogglerDemo02"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled"
-            >Disabled</a
-          >
-        </li>
-      </ul>
-      <form class="d-flex input-group w-auto">
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Type query"
-          aria-label="Search"
-        />
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Auth Tutorial{% endblock %}</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/index.css') }}" rel="stylesheet" type="text/css">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<main>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">ReviewX</a>
+            <button
+                    aria-controls="navbarTogglerDemo02"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    class="navbar-toggler"
+                    data-mdb-target="#navbarTogglerDemo02"
+                    data-mdb-toggle="collapse"
+                    type="button"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled"
+                        >Disabled</a
+                        >
+                    </li>
+                </ul>
+                <form class="d-flex input-group w-auto">
+                    <input
+                            aria-label="Search"
+                            class="form-control"
+                            placeholder="Type query"
+                            type="search"
+                    />
 
-        <button
-          class="btn btn-outline-primary"
-          type="button"
-          data-mdb-ripple-color="dark"
-        >
-          Search
-        </button>
-      </form>
-        <button type="button" class="btn btn-outline-dark" style="margin-right: 20px; margin-left: 20px;">Login</button>
-    </div>
-  </div>
-</nav>
-         {% block content %}
-         {% endblock %}
-      </main>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-   </body>
+                    <button
+                            class="btn btn-outline-primary"
+                            data-mdb-ripple-color="dark"
+                            type="button"
+                    >
+                        Search
+                    </button>
+                </form>
+                <button class="btn btn-outline-dark" style="margin-right: 20px; margin-left: 20px;" type="button">
+                    Login
+                </button>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</main>
+<script crossorigin="anonymous"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

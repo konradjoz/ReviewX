@@ -1,20 +1,22 @@
+import datetime
+import os
+
+from dotenv import *
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
-from models import User, Review, Shop, test
-import datetime
-from dotenv import *
 from mongoengine import connect
-import os
-from pymongo import MongoClient
-from dns import *
-import json
+
+from models import User
 
 app = FastAPI()
-load_dotenv()
-connect(host=os.getenv("MONGO_CONNECTION_STRING"))
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+# connect()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -22,11 +24,14 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=RedirectResponse)
 async def root(request: Request):
+    print(dotenv_path)
     return templates.TemplateResponse('base.html', {'request': request})
+
 
 @app.get("/login/", response_class=HTMLResponse)
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
 
 @app.post("/login/", response_class=HTMLResponse)
 async def post_login(request: Request, username: str = Form(...), password: str = Form(...)):
@@ -37,10 +42,10 @@ async def post_login(request: Request, username: str = Form(...), password: str 
             return RedirectResponse(url=f'/user/{username}')
         else:
             context = {
-                    "request": request,
-                    "login_status": True,
-                    "update_time": datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-                }
+                "request": request,
+                "login_status": True,
+                "update_time": datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+            }
             return templates.TemplateResponse("login.html", context)
     else:
         return templates.TemplateResponse("login.html", {"request": request})
@@ -60,7 +65,7 @@ async def user_profile(username: str, request: Request):
         context = {
             "request": request,
             "username": username,
-            "update_time" : datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+            "update_time": datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
         }
 
         return templates.TemplateResponse("error/user_not_found.html", context)
