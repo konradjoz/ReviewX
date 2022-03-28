@@ -1,0 +1,24 @@
+
+
+{% macro card_component(card_header, card_title, card_text, card_footer) -%}
+<div class="card-container">
+  <div class="card mx-auto">
+    <div class="card text-center" style="margin: auto;">
+      <div class="card-header">
+        {{ card_header }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ card_title }}
+        </h5>
+        <p class="card-text">
+          {{ card_text }}
+        </p>
+      </div>
+      <div class="card-footer text-muted">
+        {{ card_footer }}
+      </div>
+    </div>
+    </div>
+</div>
+  {%- endmacro %}

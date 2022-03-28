@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% from "components/card.html" import card_component %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ url_for('static', path='components/comp_card.css') }}">
+{% endblock %}
+
+{% block content %}
+
+{{ card_component("Site Error", username + " Not Found", "If you believe this is not an error, contact the administrator", "Date: " + update_time) }}
+
+{% endblock %}
