@@ -5,13 +5,16 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from models import User, Review, Shop, test
 import datetime
+from dotenv import *
 from mongoengine import connect
+import os
 from pymongo import MongoClient
 from dns import *
 import json
 
 app = FastAPI()
-connect(host="mongodb+srv://root:eauTEEvJzlzgHcmE@reviewapi-cluster.xb7wp.mongodb.net/ReviewX?retryWrites=true&w=majority")
+load_dotenv()
+connect(host=os.getenv("MONGO_CONNECTION_STRING"))
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
