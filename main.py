@@ -1,10 +1,10 @@
 import datetime
-import os
-
+import os as os
 from dotenv import *
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
+from fastapi.security import OAuth2PasswordBearer
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from mongoengine import connect
@@ -13,10 +13,9 @@ from models import User
 
 app = FastAPI()
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-load_dotenv(dotenv_path)
-
-# connect()
+dotenv_path_variable = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path=dotenv_path_variable)
+connect(host=os.getenv("MONGO_URI"))
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -24,7 +23,6 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=RedirectResponse)
 async def root(request: Request):
-    print(dotenv_path)
     return templates.TemplateResponse('base.html', {'request': request})
 
 
@@ -67,5 +65,5 @@ async def user_profile(username: str, request: Request):
             "username": username,
             "update_time": datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
         }
-
+        raise HTTPException(status_code=404, detal="Item not found")
         return templates.TemplateResponse("error/user_not_found.html", context)
