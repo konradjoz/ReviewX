@@ -1,10 +1,10 @@
 import datetime
 import os as os
+
 from dotenv import *
-from fastapi import FastAPI, Request, Form, Depends, HTTPException
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
-from fastapi.security import OAuth2PasswordBearer
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from mongoengine import connect
@@ -65,5 +65,9 @@ async def user_profile(username: str, request: Request):
             "username": username,
             "update_time": datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
         }
-        raise HTTPException(status_code=404, detal="Item not found")
         return templates.TemplateResponse("error/user_not_found.html", context)
+
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms(request: Request):
+    return templates.TemplateResponse("terms.html", {"request": request})
