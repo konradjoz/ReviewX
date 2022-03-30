@@ -1,5 +1,6 @@
 from mongoengine import Document, StringField, IntField, ListField, ReferenceField, DateTimeField, BooleanField, \
-    FloatField, EmbeddedDocument
+    FloatField, EmbeddedDocument, EmailField
+
 
 class Shop(Document):
     meta = {'collection': 'Shop'}
@@ -10,6 +11,15 @@ class Shop(Document):
     total_reviews_count = IntField(required=True, default=0)
     average_review = FloatField(required=True, default=0)
     reviews = ListField(ReferenceField('Review'))
+
+    def _init__(self, name, url, created_at, updated_at, total_reviews_count, average_review, reviews):
+        self.name = name
+        self.url = url
+        self.created_at = created_at
+        self.updated_at = updated_at
+        self.total_reviews_count = total_reviews_count
+        self.average_review = average_review
+        self.reviews = reviews
 
 
 class Review(EmbeddedDocument):
@@ -29,7 +39,7 @@ class User(Document):
     user_id = IntField(required=True, unique=True)
     username = StringField(required=True, unique=True, max_length=50)
     password = StringField(required=True, min_length=8)
-    email = StringField(required=True, unique=True, max_length=50)
+    email = EmailField(required=True, unique=True, max_length=50)
     first_name = StringField(required=True, max_length=50)
     last_name = StringField(required=True, max_length=50)
     created_at = DateTimeField(required=True)

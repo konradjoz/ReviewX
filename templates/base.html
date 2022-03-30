@@ -4,39 +4,45 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}Auth Tutorial{% endblock %}</title>
+    <script crossorigin="anonymous"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY="
+            src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
-    <link href="{{ url_for('static', path='css/index.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/base.css') }}" rel="stylesheet" type="text/css">
     {% block stylesheets %}{% endblock %}
 </head>
-<body>
-<main>
+<body class="">
+<main class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="">ReviewX</a>
+            <a class="navbar-brand" href="/">ReviewX</a>
             <button
-                    aria-controls="navbarTogglerDemo02"
+                    aria-controls="navbarToggler"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                     class="navbar-toggler"
-                    data-mdb-target="#navbarTogglerDemo02"
-                    data-mdb-toggle="collapse"
+                    data-bs-target="#navbarToggler"
+                    data-bs-toggle="collapse"
                     type="button"
             >
                 <i class="fas fa-bars"></i>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a aria-current="page" class="nav-link active" href="#">Home</a>
+                        <a aria-current="page" class="nav-link active" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link active" href="/merchants">Merchants</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled"
-                        >Disabled</a
-                        >
+                        <a class="nav-link active" href="/reviews">Reviews</a>
                     </li>
                 </ul>
                 <form class="d-flex input-group w-auto">
@@ -49,22 +55,36 @@
 
                     <button
                             class="btn btn-outline-primary"
-                            data-mdb-ripple-color="dark"
                             type="button"
                     >
                         Search
                     </button>
                 </form>
-                <button class="btn btn-outline-dark" style="margin-right: 20px; margin-left: 20px;" type="button">
+                <a class="btn btn-outline-dark mx-4" id="base-login-btn" type="button" href="/login">
                     Login
-                </button>
+                </a>
+                <a class="btn btn-outline-success " id="base-register-btn" type="button" href="/register">
+                    Register
+                </a>
+
             </div>
         </div>
     </nav>
-    {% block content %}
-    {% endblock %}
-
+    <content style="">
+        {% block content %}
+        {% endblock %}
+    </content>
+    <footer class="mt-auto px-10">
+        <hr class="colored mb-auto px-10"/>
+    </footer>
 </main>
+
+<script>
+    $(".form-control").autocomplete({
+        source: []
+    });
+</script>
+
 <script crossorigin="anonymous"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

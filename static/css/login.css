@@ -3,8 +3,15 @@
 }
 
 .container {
-    margin: 25%;
+    margin: auto;
 }
+
+#formFooter {
+    background-color: inherit;
+    padding: 10px;
+    text-align: center;
+}
+
 
 img {
     padding: 5%;

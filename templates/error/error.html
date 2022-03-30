@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block stylesheets %}
+<link href="{{ url_for('static', path='css/error/error.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row h-100 vh-100">
+        <div class="col-sm-12 mt-auto mb-auto">
+            <div class="d-flex justify-content-center align-items-center" id="main">
+                <h1 class="align-top border-right inline-block align-content-center">{{ error_status }}</h1>
+                <div class="inline-block align-middle">
+                    <h2 class="font-weight-normal lead" id="desc">{{detail}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

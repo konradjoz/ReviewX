@@ -8,10 +8,14 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from mongoengine import connect
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from starlette.responses import JSONResponse
 
-from models import User
+from models import User, Shop
 
 app = FastAPI()
+
+date_now = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
 dotenv_path_variable = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path=dotenv_path_variable)
@@ -23,7 +27,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=RedirectResponse)
 async def root(request: Request):
-    return templates.TemplateResponse('base.html', {'request': request})
+    return templates.TemplateResponse('index.html', {'request': request})
 
 
 @app.get("/login/", response_class=HTMLResponse)
@@ -71,3 +75,43 @@ async def user_profile(username: str, request: Request):
 @app.get("/terms", response_class=HTMLResponse)
 async def terms(request: Request):
     return templates.TemplateResponse("terms.html", {"request": request})
+
+
+@app.get("/api/v1/merchants", response_class=JSONResponse)
+async def get_merchants():
+    merchants_list = {
+        "merchants": []
+    }
+    for merchant in Shop.objects().fields(name=1):
+        merchants_list["merchants"].append(merchant.name)
+    if len(merchants_list["merchants"]) != 0:
+        return JSONResponse(merchants_list)
+    else:
+        return JSONResponse({
+            "message": "No merchants found"
+        })
+
+
+@app.exception_handler(StarletteHTTPException)
+async def my_custom_exception_handler(request: Request, exc: StarletteHTTPException):
+    # print(exc.status_code, exc.detail)
+    error_status = exc.status_code
+    if exc.status_code == 404:
+        return templates.TemplateResponse('error/error.html', {
+            'request': request,
+            'error_status': error_status,
+            'detail': exc.detail
+        })
+    elif exc.status_code == 500:
+        return templates.TemplateResponse('error/error.html', {
+            'request': request,
+            'error_status': error_status,
+            'detail': exc.detail
+        })
+    else:
+        # Generic error page
+        return templates.TemplateResponse('error/error.html', {
+            'request': request,
+            'error_status': error_status,
+            'detail': exc.detail
+        })
