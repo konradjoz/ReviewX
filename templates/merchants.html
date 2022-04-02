@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+{% from "components/merchants/merchant_card.html" import merchant_card %}
+
+{% block stylesheets %}
+<link href="{{ url_for('static', path='css/merchants.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-xxl">
+    {{ merchant_card("Amazon", "https://www.amazon.com") }}
+</div>
+
+{% endblock %}

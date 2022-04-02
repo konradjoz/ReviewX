@@ -7,6 +7,11 @@ a {
     color: inherit;
 }
 
+button[aria-expanded="true"] {
+    margin-right: 10px;
+}
+
+/*
 @media (max-width: 1000px) {
     #base-login-btn {
         margin-right: 0 !important;
@@ -22,6 +27,7 @@ a {
         width: 33%;
     }
 }
+*/
 
 .container-fluid {
     margin: 1rem;
@@ -40,4 +46,61 @@ hr {
 hr.colored {
     height: 8px;
     background: linear-gradient(to left, rgba(196, 222, 138, 1) 0%, rgba(196, 222, 138, 1) 12.5%, rgba(245, 253, 212, 1) 12.5%, rgba(245, 253, 212, 1) 25%, rgba(255, 208, 132, 1) 25%, rgba(255, 208, 132, 1) 37.5%, rgba(242, 122, 107, 1) 37.5%, rgba(242, 122, 107, 1) 50%, rgba(223, 157, 185, 1) 50%, rgba(223, 157, 185, 1) 62.5%, rgba(192, 156, 221, 1) 62.5%, rgba(192, 156, 221, 1) 75%, rgba(95, 156, 217, 1) 75%, rgba(95, 156, 217, 1) 87.5%, rgba(94, 190, 227, 1) 87.5%, rgba(94, 190, 227, 1) 87.5%, rgba(94, 190, 227, 1) 100%)
+}
+
+.ui-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    display: none;
+    min-width: 160px;
+    padding: 4px 0;
+    margin: 0 0 10px 25px;
+    list-style: none;
+    background-color: #ffffff;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    *border-right-width: 0px;
+    *border-bottom-width: 1rem;
+}
+
+.ui-menu-item > a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.ui-state-hover, .ui-state-active {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #0088cc;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    background-image: none;
+}
+
+li > .ui-menu-item {
+    margin: 3px;
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
 }

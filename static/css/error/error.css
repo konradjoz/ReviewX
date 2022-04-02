@@ -1,3 +1,5 @@
-h1 {
-    margin-right: 1rem;
+
+.vertical-line {
+    border-left: 2px solid black;
+
 }

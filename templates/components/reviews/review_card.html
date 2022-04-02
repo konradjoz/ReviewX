@@ -1,0 +1,22 @@
+{% macro alert_component(merchant_name, merchant_url ) -%}
+<div>
+    <div class="col-12 col-md-6">
+        <div class="card shadow text-center">
+            <div class="card-header bg-white border-0 pb-0">
+                <span class="card-text small"><span class="far fa-calendar-alt me-2"></span>15 March 2021</span>
+            </div>
+            <div class="card-body">
+                <h3 class="h5 card-title">We partnered up with Google</h3>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary btn-sm">Learn More</a>
+            </div>
+            <div class="card-footer bg-white border-0">
+                <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="23k followers">
+                    <img class="avatar-sm me-2 img-fluid rounded-circle"
+                         src="../../assets/img/team/profile-picture-2.jpg" alt="Moore avatar"> Jo J. Moore
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{%- endmacro %}

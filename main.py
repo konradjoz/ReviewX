@@ -9,9 +9,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from mongoengine import connect
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from starlette.responses import JSONResponse
 
-from models import User, Shop
+from api.main import router
+from models import *
+from user.models import User
 
 app = FastAPI()
 
@@ -22,7 +23,11 @@ load_dotenv(dotenv_path=dotenv_path_variable)
 connect(host=os.getenv("MONGO_URI"))
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/javascript", StaticFiles(directory="javascript"), name="javascript")
+
 templates = Jinja2Templates(directory="templates")
+
+app.include_router(router)
 
 
 @app.get("/", response_class=RedirectResponse)
@@ -40,7 +45,7 @@ async def post_login(request: Request, username: str = Form(...), password: str 
     if User.objects(username=username).count() == 1:
         users = User.objects.get(username=username)
         if users.password == password:
-            context = {"request": request, "user": users}
+            {"request": request, "user": users}
             return RedirectResponse(url=f'/user/{username}')
         else:
             context = {
@@ -58,38 +63,22 @@ async def register(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
 
-@app.get("/user/{username}", response_class=HTMLResponse)
-async def user_profile(username: str, request: Request):
-    if User.objects(username=username).count() == 1:
-        users = User.objects.get(username=username)
-        return templates.TemplateResponse("test.html", {"request": request, "user": users})
-    else:
-        context = {
-            "request": request,
-            "username": username,
-            "update_time": datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        }
-        return templates.TemplateResponse("error/user_not_found.html", context)
+@app.get("/merchants", response_class=HTMLResponse)
+async def register(request: Request):
+    return templates.TemplateResponse("merchants.html", {"request": request})
 
 
 @app.get("/terms", response_class=HTMLResponse)
 async def terms(request: Request):
+    merchants_list = []
+    for merchant in Shop.objects().fields(name=1):
+        merchants_list.append(merchant.name)
     return templates.TemplateResponse("terms.html", {"request": request})
 
 
-@app.get("/api/v1/merchants", response_class=JSONResponse)
-async def get_merchants():
-    merchants_list = {
-        "merchants": []
-    }
-    for merchant in Shop.objects().fields(name=1):
-        merchants_list["merchants"].append(merchant.name)
-    if len(merchants_list["merchants"]) != 0:
-        return JSONResponse(merchants_list)
-    else:
-        return JSONResponse({
-            "message": "No merchants found"
-        })
+@app.get("/test", response_class=HTMLResponse)
+async def test(request: Request):
+    return templates.TemplateResponse("test.html", {"request": request})
 
 
 @app.exception_handler(StarletteHTTPException)

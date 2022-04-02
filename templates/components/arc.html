@@ -1,0 +1,102 @@
+{% macro arc_component(data_value) -%}
+
+<style>
+    .HalfDoughnutChart {
+        display: inline-block
+    }
+
+    .HalfDoughnutChart .HalfDoughnutChart__container {
+        position: relative;
+        width: 200px;
+        height: 100px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        margin-right: 0;
+        margin-left: 0
+    }
+
+    .HalfDoughnutChart .HalfDoughnutChart__container .arc, .HalfDoughnutChart .HalfDoughnutChart__container:before {
+        content: '';
+        width: 200px;
+        height: 100px;
+        position: absolute;
+        -ms-transform-origin: 50% 0%;
+        -webkit-transform-origin: 50% 0%;
+        transform-origin: 50% 0%;
+        left: 0;
+        box-sizing: border-box
+    }
+
+    .HalfDoughnutChart .HalfDoughnutChart__container:before {
+        border: 17px solid #e8e8e8;
+        border-bottom: none;
+        top: 0;
+        z-index: 1;
+        border-radius: 300px 300px 0 0
+    }
+
+    .HalfDoughnutChart .HalfDoughnutChart__container .arc {
+        border: 12px solid #00ffab;
+        border-top: none;
+        border-radius: 0 0 300px 300px;
+        top: 100%;
+        z-index: 2;
+        animation-name: halfDoughnutChartFill;
+        animation-duration: 3s;
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        transition: all 3s cubic-bezier(0.4, 0, 1, 1);
+    }
+
+    .HalfDoughnutChart .HalfDoughnutChart__container .arc::before {
+        content: "";
+        height: 2px;
+        width: 5px;
+        position: absolute;
+        top: 0;
+        transition: all 3s ease-in-out
+    }
+
+    .HalfDoughnutChart__container .arc {
+        /*
+        -webkit-transform: rotate(45deg) !important;
+        -moz-transform: rotate(142deg) !important;
+        -ms-transform: rotate(142deg) !important;
+        -o-transform: rotate(142deg) !important;
+        */
+        transition: all 3s ease-in-out;
+        border-color: #FCD000 !important;
+    }
+
+    .HalfDoughnutChart__container .arc:after {
+        position: absolute;
+    }
+
+    .HalfDoughnutChart__container .arc:before {
+        background-color: #FCD000 !important;
+    }
+
+    .HalfDoughnutChart__container .arc + .score .TextHeading {
+        color: #FCD000 !important;
+    }
+
+
+</style>
+
+<div class="HalfDoughnutChart">
+    <div class="HalfDoughnutChart__container">
+        <div class="arc" data-value="{{ (data_value/100) * 180 }}"></div>
+    </div>
+</div>
+
+<script>
+    $("#arc").ready(function () {
+        var arc = $(".arc");
+        var arcValue = arc.data("value").toString();
+        arc.css("transform", "rotate(" + arcValue + "deg)");
+        $(".arc").css('transform', 'rotate(%d deg)', arcValue);
+    });
+</script>
+
+{%- endmacro %}
