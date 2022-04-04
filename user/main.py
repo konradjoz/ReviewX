@@ -2,14 +2,18 @@ import datetime
 
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+from starlette.requests import Request
+from starlette.templating import Jinja2Templates
 
 from user.models import User
 
-router = APIRouter(prefix='/user')
+router = APIRouter()
 
+templates = Jinja2Templates(directory="templates")
 
 @router.get("/{username}", response_class=HTMLResponse)
 async def user_profile(username: str, request: Request):
+    print("rgnoue")
     if User.objects(username=username).count() == 1:
         users = User.objects.get(username=username)
         return templates.TemplateResponse("test.html", {"request": request, "user": users})

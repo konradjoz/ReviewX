@@ -10,7 +10,8 @@ from fastapi.templating import Jinja2Templates
 from mongoengine import connect
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from api.main import router
+from api.main import router as api_router
+from user.main import router as user_router
 from models import *
 from user.models import User
 
@@ -27,7 +28,8 @@ app.mount("/javascript", StaticFiles(directory="javascript"), name="javascript")
 
 templates = Jinja2Templates(directory="templates")
 
-app.include_router(router)
+app.include_router(api_router, prefix="/api")
+app.include_router(user_router, prefix="/user")
 
 
 @app.get("/", response_class=RedirectResponse)
