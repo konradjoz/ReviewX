@@ -1,0 +1,123 @@
+{% extends "base.html"%}
+{% from "merchants/components/merchant_card.html" import merchant_card %}
+
+{% block stylesheets %}
+<link href="{{ url_for('static', path='css/merchants.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <!--- Header -->
+    <div class="row py-5">
+        <div class="col-md-12 text-center">
+            <h1>Merchants</h1>
+
+        </div>
+    </div>
+
+    <!--- Merchants -->
+    <div class="row py-3">
+        <div class="col-lg-3">
+            <div class="card card-custom bg-white border-white border-0 rounded-5" style="background-color: yellow;">
+                <div class="card-custom-img"
+                     style="background-image: url(http://res.cloudinary.com/d3/image/upload/c_scale,q_auto:good,w_1110/trianglify-v1-cs85g_cc5d2i.jpg);"></div>
+                <div class="card-custom-avatar">
+                    <img class="img-fluid py-4" src="../../static/img/merchant_icon.svg" alt="Avatar"/>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Amazon</h4>
+                    <div class="flex-container">
+                        <div class="row d-flex py-1 justify-content-center">
+                            <div class="col-auto px-0">
+                                <small class="badge rounded-3  bg-info text-white" unselectable="on"
+                                       id="merchant_ranking">Ranked: #1</small>
+                            </div>
+                            <div class="col-auto px-auto">
+                                <small class="badge rounded-3 bg-warning text-bold" unselectable="on"
+                                       id="merchant_total_reviews">Reviews: 230</small>
+                            </div>
+                            <div class="col-auto px-0">
+                                <small class="badge rounded-3 bg-primary" unselectable="on"
+                                       id="merchant_average_rating">Rating: 4.32</small>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="card-text">Card has minimum height set but will expand if more space is needed for card
+                        body content. You can use Bootstrap <a
+                                href="https://getbootstrap.com/docs/4.0/components/card/#card-decks" target="_blank">card-decks</a>
+                        to align multiple cards nicely in a row.</p>
+                    <a href="https://www.amazon.com/" class="btn btn-primary" target="popup">Visit
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                            <path fill-rule="evenodd"
+                                  d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="btn btn-outline-primary inline-block">Write a Reivew</a>
+                </div>
+                <div class="card-footer" style="background: inherit; border-color: inherit;">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-custom bg-white border-white border-0 rounded-5" style="background-color: yellow;">
+                <div class="card-custom-img"
+                     style="background-image: url(http://res.cloudinary.com/d3/image/upload/c_scale,q_auto:good,w_1110/trianglify-v1-cs85g_cc5d2i.jpg);"></div>
+                <div class="card-custom-avatar">
+                    <img class="img-fluid py-4" src="../../static/img/merchant_icon.svg" alt="Avatar"/>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Amazon</h4>
+                    <div class="flex-container">
+                        <div class="row d-flex py-1 justify-content-center">
+                            <div class="col-auto px-0">
+                                <small class="badge rounded-3  bg-info text-white" unselectable="on"
+                                       id="merchant_ranking">Ranked: #1</small>
+                            </div>
+                            <div class="col-auto px-auto">
+                                <small class="badge rounded-3 bg-warning text-bold" unselectable="on"
+                                       id="merchant_total_reviews">Reviews: 230</small>
+                            </div>
+                            <div class="col-auto px-0">
+                                <small class="badge rounded-3 bg-primary" unselectable="on"
+                                       id="merchant_average_rating">Rating: 4.32</small>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="card-text">Card has minimum height set but will expand if more space is needed for card
+                        body content. You can use Bootstrap <a
+                                href="https://getbootstrap.com/docs/4.0/components/card/#card-decks" target="_blank">card-decks</a>
+                        to align multiple cards nicely in a row.</p>
+                    <a href="https://www.amazon.com/" class="btn btn-primary" target="popup">Visit
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                            <path fill-rule="evenodd"
+                                  d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="btn btn-outline-primary inline-block">Write a Reivew</a>
+                </div>
+                <div class="card-footer" style="background: inherit; border-color: inherit;">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-3">
+        </div>
+    </div>
+</div>
+
+<!-- {{ merchant_card("Amazon", "https://www.amazon.com") }} -->
+
+{% endblock %}

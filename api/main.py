@@ -1,38 +1,37 @@
-from fastapi import *
-from starlette.responses import HTMLResponse
+import json
 
-from models import Shop
+import requests
+from fastapi import APIRouter
+from starlette.responses import JSONResponse
 
-router = APIRouter(prefix="/api/v1")
+router = APIRouter()
+
+headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Request-Headers': '*',
+    'api-key': 'quzesCE7eY3nLKg6NRxlA66T2HVXTm45IZ9PseU54OTLXNMCUy86dTSI3LER4WxM'
+}
+payload = json.dumps({
+    "collection": "Shop",
+    "database": "ReviewX",
+    "dataSource": "ReviewApi-Cluster"
+})
 
 
-@router.get("/merchant/{merchant_url}")
-async def get_merchants():
-    l = Shop.objects().all().to_json()
-    html = f"""
-    <html>
-    <head>
-    <title>Merchants</title>
-    </head>
-    <body>
-    <pre class="prettyprint">
-    <code class="">
-    {l}
-    </code>
-    </pre>
-    </body>
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-    """
+@router.get("/merchants/")
+async def get_merchants(merchant_name: str):
+    url = "https://data.mongodb-api.com/app/data-bonin/endpoint/data/beta/action/find"
+    new_payload = payload.update({"projection": {"_id": 1}})
+    print(payload)
+    response = requests.request("POST", url, headers=new_payload, data=payload)
+    print(response.text)
+    return JSONResponse(response.text)
 
-    return HTMLResponse(html)
-    """
-    merchants_list = []
-    for merchant in Shop.objects().fields(name=1):
-        merchants_list.append(merchant.name)
-    if len(merchants_list) != 0:
-        return JSONResponse(merchants_list)
-    else:
-        return JSONResponse({
-            "message": "No merchants found"
-        })
-"""
+
+@router.get("/merchants/{merchant_url/")
+async def get_reviews(merchant_name: str):
+    url = "https://data.mongodb-api.com/app/data-bonin/endpoint/data/beta/action/find"
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+    return JSONResponse(response.text)

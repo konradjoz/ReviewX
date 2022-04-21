@@ -11,30 +11,37 @@ from mongoengine import connect
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from api.main import router as api_router
-from user.main import router as user_router
 from models import *
-from user.models import User
+from reviews.main import router as review_router
+from users.main import router as user_router
+from users.models import User
 
 app = FastAPI()
 
 date_now = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
+# COnnecting to MongoDB database
 dotenv_path_variable = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path=dotenv_path_variable)
-connect(host=os.getenv("MONGO_URI"))
+db = connect(host=os.getenv("MONGO_URI"))
 
+# Mounting the static files directory to the app (for CSS, JS, etc.)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/javascript", StaticFiles(directory="javascript"), name="javascript")
 
+# Jinja2 Templates
 templates = Jinja2Templates(directory="templates")
 
-app.include_router(api_router, prefix="/api")
-app.include_router(user_router, prefix="/user")
+app.include_router(api_router, prefix="/api/v1")
+app.include_router(user_router, prefix="/users")
+app.include_router(review_router, prefix="/reviews")
 
 
+# Index Route
 @app.get("/", response_class=RedirectResponse)
 async def root(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
+    data = {"user_authenticated": False}
+    return templates.TemplateResponse('index.html', {'request': request, "data": data})
 
 
 @app.get("/login/", response_class=HTMLResponse)
@@ -42,13 +49,13 @@ async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
-@app.post("/login/", response_class=HTMLResponse)
+@app.post("/login/verify", response_class=HTMLResponse)
 async def post_login(request: Request, username: str = Form(...), password: str = Form(...)):
     if User.objects(username=username).count() == 1:
         users = User.objects.get(username=username)
         if users.password == password:
-            {"request": request, "user": users}
-            return RedirectResponse(url=f'/user/{username}')
+            {"request": request, "users": users}
+            return RedirectResponse(url=f'/users/{username}')
         else:
             context = {
                 "request": request,
@@ -67,7 +74,7 @@ async def register(request: Request):
 
 @app.get("/merchants", response_class=HTMLResponse)
 async def register(request: Request):
-    return templates.TemplateResponse("merchants.html", {"request": request})
+    return templates.TemplateResponse("merchants/merchants.html", {"request": request})
 
 
 @app.get("/terms", response_class=HTMLResponse)
