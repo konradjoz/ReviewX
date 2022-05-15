@@ -3,14 +3,17 @@ import os as os
 
 from dotenv import *
 from fastapi import FastAPI, Request, Form
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from mongoengine import connect
+from motor.motor_asyncio import AsyncIOMotorClient
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from api.main import router as api_router
+from config import settings
 from models import *
 from reviews.main import router as review_router
 from users.main import router as user_router
@@ -18,7 +21,16 @@ from users.models import User
 
 app = FastAPI()
 
-date_now = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+# CORS middleware for cross-origin requests (development)
+# Allows the connection between the frontend (React) and the backend (FastAPI)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[settings.BACKEND_CORS_ORIGINS],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # COnnecting to MongoDB database
 dotenv_path_variable = os.path.join(os.path.dirname(__file__), '.env')
@@ -37,11 +49,21 @@ app.include_router(user_router, prefix="/users")
 app.include_router(review_router, prefix="/reviews")
 
 
+@app.on_event("startup")
+async def startup():
+    app.mongodb_client = AsyncIOMotorClient(settings.DB_URL)
+    app.mongodb = app.mongodb_client[settings.DB_NAME]
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    app.mongodb_client.close()
+
+
 # Index Route
 @app.get("/", response_class=RedirectResponse)
 async def root(request: Request):
-    data = {"user_authenticated": False}
-    return templates.TemplateResponse('index.html', {'request': request, "data": data})
+    return templates.TemplateResponse('index.html', {'request': request})
 
 
 @app.get("/login/", response_class=HTMLResponse)
@@ -90,8 +112,9 @@ async def test(request: Request):
     return templates.TemplateResponse("test.html", {"request": request})
 
 
+# Default Exception Route
 @app.exception_handler(StarletteHTTPException)
-async def my_custom_exception_handler(request: Request, exc: StarletteHTTPException):
+async def exception_handler(request: Request, exc: StarletteHTTPException):
     # print(exc.status_code, exc.detail)
     error_status = exc.status_code
     if exc.status_code == 404:
